@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+strawberry-graphql[fastapi]
+python-dotenv
+pydantic
+black
+isort
+flake8
+flake8-pyproject
+pre-commit

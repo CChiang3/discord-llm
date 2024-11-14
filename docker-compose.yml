@@ -1,0 +1,55 @@
+services:
+  api:
+    build: ./api
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/discord_llm
+    volumes:
+      - ./api:/app
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    ports:
+      - 8001:8001
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/discord_llm
+    volumes:
+      - ./server:/app
+    depends_on:
+      - postgres
+      - ollama
+
+  ollama:
+    build: ./ollama
+    ports:
+      - 11434:11434
+    volumes:
+      - llmdata:/root/.ollama
+
+  discord:
+    build: ./discord
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - API_GATEWAY_URL=http://api:8000
+    volumes:
+      - ./discord:/app
+    depends_on:
+      - api
+
+  postgres:
+    image: ankane/pgvector:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=discord_llm
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  llmdata:

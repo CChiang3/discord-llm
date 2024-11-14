@@ -1,0 +1,13 @@
+# environment
+.env
+
+# IDEs
+.idea/
+.vscode/
+
+# python
+venv/
+__pycache__/
+
+# javascript
+node_modules/

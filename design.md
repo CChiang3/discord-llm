@@ -16,7 +16,7 @@ To create a robust Retrieval Augmented Generation (RAG) system capable of proces
 
 ### Technology Stack
 
-- Backend: Python, FastAPI, SQLAlchemy, PostgreSQL-PGVector, GraphQL
+- Backend: Python, FastAPI, SQLAlchemy, PostgreSQL-PGVector, GraphQL, JavaScript, Apollo
 - Frontend: React, Redux, TypeScript
 - Infrastructure: Docker
 

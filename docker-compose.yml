@@ -3,8 +3,6 @@ services:
     build: ./api
     ports:
       - 8000:8000
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/discord_llm
     volumes:
       - ./api:/app
     depends_on:
@@ -15,7 +13,7 @@ services:
     ports:
       - 8001:8001
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/discord_llm
+      - DATABASE_URL=${DATABASE_URL}
     volumes:
       - ./server:/app
     depends_on:
@@ -44,9 +42,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=discord_llm
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
 

@@ -2,7 +2,7 @@ import strawberry
 
 
 @strawberry.type
-class Query:
+class Mutation:
     @strawberry.field
     def ping(self) -> str:
         return "pong"

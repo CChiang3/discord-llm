@@ -3,6 +3,9 @@ uvicorn
 strawberry-graphql[fastapi]
 python-dotenv
 pydantic
+sqlalchemy
+pgvector
+psycopg2
 black
 isort
 flake8

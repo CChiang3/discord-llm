@@ -1,7 +1,7 @@
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 
-from database import Base
+from app.database import Base
 
 
 class Message(Base):

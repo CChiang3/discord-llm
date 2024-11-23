@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer
 
-from database import Base
+from app.database import Base
 
 
 class Guild(Base):

@@ -36,7 +36,7 @@ Here are the design specifications of the microservices within this project.
 
 3. Ollama Service
 
-  - Interacts with the LLM (e.g. llama3.2) to embed and generate text.
+  - Interacts with the LLM (e.g. qwen2.5:1.5b) to embed and generate text.
 
 4. Discord Service
 

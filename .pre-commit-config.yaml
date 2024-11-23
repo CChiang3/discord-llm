@@ -23,6 +23,9 @@ repos:
     rev: 7.0.0
     hooks:
       - id: flake8
+        entry: pflake8
+        additional_dependencies: [pyproject-flake8]
+        args: ["--config=server/pyproject.toml"]
         files: ^server/.*\.py$
 
   - repo: local

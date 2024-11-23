@@ -1,3 +1,8 @@
-from .session import Base, engine, get_session
+from sqlalchemy.ext.declarative import declarative_base
 
-__all__ = ["Base", "engine", "get_session"]
+from .engine import get_engine
+from .session import get_session
+
+Base = declarative_base()
+
+__all__ = ["Base", "get_engine", "get_session"]

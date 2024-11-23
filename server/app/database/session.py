@@ -1,16 +1,17 @@
-import os
+from typing import Generator
 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
-engine = create_engine(os.getenv("DATABASE_URL"))
+from .engine import get_engine
 
-Base = declarative_base()
-
-Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+_sessionmaker = None
 
 
-def get_session():
-    with Session() as session:
+def get_session() -> Generator[Session, None, None]:
+    global _sessionmaker
+    if _sessionmaker is None:
+        engine = get_engine()
+        _sessionmaker = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+    with _sessionmaker() as session:
         yield session

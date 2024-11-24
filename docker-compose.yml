@@ -1,13 +1,4 @@
 services:
-  api:
-    build: ./api
-    ports:
-      - 8000:8000
-    volumes:
-      - ./api:/app
-    depends_on:
-      - server
-
   server:
     build: ./server
     ports:
@@ -31,11 +22,11 @@ services:
     build: ./discord
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - API_GATEWAY_URL=http://api:8000
+      - API_GATEWAY_URL=http://server:8001
     volumes:
       - ./discord:/app
     depends_on:
-      - api
+      - server
 
   postgres:
     image: ankane/pgvector:latest

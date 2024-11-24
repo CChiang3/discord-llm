@@ -16,7 +16,7 @@ To create a robust Retrieval Augmented Generation (RAG) system capable of proces
 
 ### Technology Stack
 
-- Backend: Python, FastAPI, SQLAlchemy, PostgreSQL-PGVector, GraphQL, JavaScript, Apollo
+- Backend: Python, FastAPI, SQLAlchemy, PostgreSQL-PGVector, GraphQL, REST
 - Frontend: React, Redux, TypeScript
 - Infrastructure: Docker
 
@@ -24,29 +24,24 @@ To create a robust Retrieval Augmented Generation (RAG) system capable of proces
 
 Here are the design specifications of the microservices within this project.
 
-1. API Gateway
-
-  - Handles incoming requests (e.g. GraphQL) and routes them to appropriate services.
-  - Implements authentication, authorization, and rate limiting.
-
-2. Server
+1. Server
 
   - Indexes documents, creates embeddings, and performs similarity search.
   - Stores embeddings and metadata in PostgreSQL-PGVector.
 
-3. Ollama Service
+2. Ollama Service
 
   - Interacts with the LLM (e.g. llama3.2) to embed and generate text.
 
-4. Discord Service
+3. Discord Service
 
   - Interacts with the Discord API (discord.js) to receive and send messages.
 
-5. Frontend
+4. Frontend
 
   - Provides a web-based interface for viewing server statistics and interacting with the application.
 
-6. Database Service
+5. Database Service
 
   - Stores all of the projects information.
 

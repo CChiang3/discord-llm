@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from strawberry.fastapi import GraphQLRouter
 
 from app.database import Base, get_engine
+from app.graphql import schema
 from app.models import Guild, Message  # noqa: F401
-from app.schema import schema
 
 engine = get_engine()
 Base.metadata.create_all(bind=engine)

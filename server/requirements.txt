@@ -8,6 +8,7 @@ psycopg2
 pgvector
 python-dotenv
 pytest
+pytest-asyncio
 black
 isort
 flake8

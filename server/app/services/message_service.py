@@ -5,11 +5,14 @@ from sqlalchemy.orm import Session
 from app.models.message import Message
 from app.repositories import GuildRepository, MessageRepository
 
+from .llm_service import LLMService
+
 
 class MessageService:
     def __init__(self, session: Session):
         self.message_repository = MessageRepository(session)
         self.guild_repository = GuildRepository(session)
+        self.llm_service = LLMService()
 
     async def get_message(self, message_id: int) -> Message:
         message = await self.message_repository.get_message(message_id)
@@ -29,8 +32,7 @@ class MessageService:
         if message is not None:
             raise Exception()
 
-        # TODO: create embedding
-        embedding = None
+        embedding = await self.llm_service.embed_text(content)
 
         return await self.message_repository.create_message(
             message_id, guild_id, content, embedding, timestamp

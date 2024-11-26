@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models import Guild, Message
 from app.repositories import GuildRepository, MessageRepository
-from app.services import MessageService
+from app.services import LLMService, MessageService
 
 
 @pytest.fixture
@@ -52,10 +52,11 @@ async def test_get_message_not_exists(mock_get_message, service):
 
 @pytest.mark.asyncio
 @patch.object(MessageRepository, "create_message")
+@patch.object(LLMService, "embed_text")
 @patch.object(MessageRepository, "get_message")
 @patch.object(GuildRepository, "get_guild")
 async def test_create_message_success(
-    mock_get_guild, mock_get_message, mock_create_message, service
+    mock_get_guild, mock_get_message, mock_embed_text, mock_create_message, service
 ):
     guild_id = 1
     guild = Guild(id=guild_id)
@@ -73,6 +74,7 @@ async def test_create_message_success(
 
     mock_get_guild.return_value = guild
     mock_get_message.return_value = None
+    mock_embed_text.return_value = None
     mock_create_message.return_value = message
 
     assert await service.create_message(message_id, guild_id, content, timestamp) == message

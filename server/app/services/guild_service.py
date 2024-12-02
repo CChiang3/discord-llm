@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 
 from app.models.guild import Guild
 from app.repositories import GuildRepository
+from app.schemas import GuildCreate
 
 
 class GuildService:
@@ -15,12 +16,12 @@ class GuildService:
 
         return guild
 
-    async def create_guild(self, guild_id: int) -> Guild:
-        guild = await self.guild_repository.get_guild(guild_id)
-        if guild is not None:
+    async def create_guild(self, guild: GuildCreate) -> Guild:
+        result = await self.guild_repository.get_guild(guild.id)
+        if result is not None:
             raise Exception()
 
-        return await self.guild_repository.create_guild(guild_id)
+        return await self.guild_repository.create_guild(guild.id)
 
     async def delete_guild(self, guild_id: int) -> bool:
         guild = await self.guild_repository.get_guild(guild_id)

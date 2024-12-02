@@ -1,9 +1,8 @@
-from datetime import datetime
-
 from sqlalchemy.orm import Session
 
 from app.models.message import Message
 from app.repositories import GuildRepository, MessageRepository
+from app.schemas import MessageCreate
 
 from .llm_service import LLMService
 
@@ -21,21 +20,19 @@ class MessageService:
 
         return message
 
-    async def create_message(
-        self, message_id: int, guild_id: int, content: str, timestamp: datetime
-    ) -> Message:
-        guild = await self.guild_repository.get_guild(guild_id)
-        if guild is None:
+    async def create_message(self, message: MessageCreate) -> Message:
+        result = await self.guild_repository.get_guild(message.guild_id)
+        if result is None:
             raise Exception()
 
-        message = await self.message_repository.get_message(message_id)
-        if message is not None:
+        result = await self.message_repository.get_message(message.id)
+        if result is not None:
             raise Exception()
 
-        embedding = await self.llm_service.embed_text(content)
+        embedding = await self.llm_service.embed_text(message.content)
 
         return await self.message_repository.create_message(
-            message_id, guild_id, content, embedding, timestamp
+            message.id, message.guild_id, message.content, embedding, message.timestamp
         )
 
     async def delete_message(self, message_id: int) -> bool:

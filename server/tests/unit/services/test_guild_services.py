@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.models import Guild
 from app.repositories import GuildRepository
+from app.schemas import GuildCreate
 from app.services import GuildService
 
 
@@ -50,7 +51,8 @@ async def test_create_guild_success(mock_get_guild, mock_create_guild, service):
     mock_get_guild.return_value = None
     mock_create_guild.return_value = guild
 
-    assert await service.create_guild(guild_id) == guild
+    data = GuildCreate(id=guild_id)
+    assert await service.create_guild(data) == guild
 
 
 @pytest.mark.asyncio

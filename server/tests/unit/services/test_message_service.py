@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models import Guild, Message
 from app.repositories import GuildRepository, MessageRepository
+from app.schemas import MessageCreate
 from app.services import LLMService, MessageService
 
 
@@ -63,21 +64,23 @@ async def test_create_message_success(
 
     message_id = 1
     content = "a"
+    embedding = None
     timestamp = datetime(2000, 1, 1)
     message = Message(
         id=message_id,
         guild_id=guild_id,
         content=content,
-        embedding=None,
+        embedding=embedding,
         timestamp=timestamp,
     )
 
     mock_get_guild.return_value = guild
     mock_get_message.return_value = None
-    mock_embed_text.return_value = None
+    mock_embed_text.return_value = embedding
     mock_create_message.return_value = message
 
-    assert await service.create_message(message_id, guild_id, content, timestamp) == message
+    data = MessageCreate(id=message_id, guild_id=guild_id, content=content, timestamp=timestamp)
+    assert await service.create_message(data) == message
 
 
 @pytest.mark.asyncio
@@ -90,8 +93,9 @@ async def test_create_message_failure_guild_not_exists(mock_get_guild, service):
 
     mock_get_guild.return_value = None
 
+    data = MessageCreate(id=message_id, guild_id=guild_id, content=content, timestamp=timestamp)
     with pytest.raises(Exception):
-        await service.create_message(message_id, guild_id, content, timestamp)
+        await service.create_message(data)
 
 
 @pytest.mark.asyncio
@@ -115,8 +119,9 @@ async def test_create_message_failure_message_exists(mock_get_guild, mock_get_me
     mock_get_guild.return_value = guild
     mock_get_message.return_value = message
 
+    data = MessageCreate(id=message_id, guild_id=guild_id, content=content, timestamp=timestamp)
     with pytest.raises(Exception):
-        await service.create_message(message_id, guild_id, content, timestamp)
+        await service.create_message(data)
 
 
 @pytest.mark.asyncio

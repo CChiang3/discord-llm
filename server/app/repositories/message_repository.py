@@ -57,7 +57,7 @@ class MessageRepository:
     async def update_message(
         self, message_id: int, content: str, embedding: List[float], timestamp: datetime
     ) -> Optional[Message]:
-        message = self.get_message(message_id)
+        message = await self.get_message(message_id)
         if message is None:
             return None
 
@@ -69,7 +69,7 @@ class MessageRepository:
         return message
 
     async def delete_message(self, message_id: int) -> bool:
-        message = self.get_message(message_id)
+        message = await self.get_message(message_id)
         self.session.delete(message)
         self.session.commit()
         return True

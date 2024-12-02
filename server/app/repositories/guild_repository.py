@@ -15,7 +15,7 @@ class GuildRepository:
 
     async def get_guild(self, guild_id: int) -> Optional[Guild]:
         try:
-            return await self.session.query(Guild).filter(Guild.id == guild_id).one()
+            return self.session.query(Guild).filter(Guild.id == guild_id).one()
         except NoResultFound:
             return None
 
@@ -30,7 +30,7 @@ class GuildRepository:
         return guild
 
     async def delete_guild(self, guild_id: int) -> bool:
-        guild = self.get_guild(guild_id)
+        guild = await self.get_guild(guild_id)
         self.session.delete(guild)
         self.session.commit()
         return True
